@@ -5,15 +5,16 @@
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
-bool init(GLFWwindow* window);
+bool init(GLFWwindow** window);
 
 // settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT = 1080;
 int main()
 {
 	GLFWwindow* win;
-	if (!init(win)) return -1;
+	if (!init(&win)) return -1;
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(win))
@@ -53,7 +54,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-bool init(GLFWwindow* window) {
+bool init(GLFWwindow** window) {
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
@@ -65,14 +66,14 @@ bool init(GLFWwindow* window) {
 #endif
 	// glfw window creation
 	// --------------------
-	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-	if (window == NULL)
+	*window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	if (*window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return false;
 	}
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(*window);
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
