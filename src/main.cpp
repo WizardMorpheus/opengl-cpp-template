@@ -1,5 +1,5 @@
 #include "glad/glad.h"
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -10,6 +10,7 @@ bool init(GLFWwindow** window);
 // settings
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
+const char* SCR_NAME = "Starter";
 int main()
 {
 	GLFWwindow* win;
@@ -25,7 +26,7 @@ int main()
 
 		// render
 		// ------
-		// glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -66,7 +67,7 @@ bool init(GLFWwindow** window) {
 #endif
 	// glfw window creation
 	// --------------------
-	*window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	*window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, SCR_NAME, NULL, NULL);
 	if (*window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
