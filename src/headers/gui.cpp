@@ -6,9 +6,14 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "imfilebrowser/imfilebrowser.h"
+
 GUI::GUI(GLFWwindow* window) {
 
     this->fileMenuOpen = false;
+    this->loading = false;
+    this->saving = false;
+    this->fileDialog = ImGui::FileBrowser();
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -27,10 +32,6 @@ GUI::GUI(GLFWwindow* window) {
     ImGui_ImplOpenGL3_Init("#version 130");
 }
 
-GUI::~GUI()
-{
-}
-
 void GUI::render(GLFWwindow* window) {
     // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -41,13 +42,33 @@ void GUI::render(GLFWwindow* window) {
         if (ImGui::BeginMainMenuBar()) {
             ImGui::SetWindowFontScale(2);
             if (ImGui::BeginMenu("file", &this->fileMenuOpen)) {
-                if (ImGui::MenuItem("load")) {
-
+                if (ImGui::MenuItem("Load")) {
+                    this->fileDialog.SetTitle("Load");
+                    this->fileDialog.SetTypeFilters({ ".*" }) ;
+                    this->fileDialog.Open();
+                    this->loading = true;
+                }
+                if (ImGui::MenuItem("Save")) {
+                    this->fileDialog.SetTitle("Save");
+                    this->fileDialog.SetTypeFilters({ ".*" }) ;
+                    this->fileDialog.Open();
+                    this->saving = true;
                 }
                 ImGui::EndMenu();
             }
 
             ImGui::EndMainMenuBar();
+        }
+
+        if (this->loading || this->saving) {
+            this->fileDialog.Display();
+            if (this->fileDialog.HasSelected()) {
+                // load or save
+                this->fileDialog.ClearSelected();
+                this->fileDialog.Close();
+                this->loading = false;
+                this->saving = false;
+            }
         }
 
 		// Rendering
@@ -60,5 +81,4 @@ void GUI::cleanup() {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    this->~GUI();
 }
