@@ -32,7 +32,7 @@ int main()
 		glClearColor(0.3, 0.4, 0.4, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		gui.renderGui(win);		
+		gui.render(win);		
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -41,7 +41,7 @@ int main()
 		glfwPollEvents();
 	}
 
-	gui.cleanupGui();
+	gui.cleanup();
 
 	// glfw: terminate, clearing all previously allocated GLFWresources.
 	//---------------------------------------------------------------

@@ -7,16 +7,17 @@
 class GUI {
 private:
 	// Our state
-    bool show_demo_window;
-    bool show_another_window;
+    bool fileMenuOpen;
     ImGuiIO io;
 
 public:
     GUI(GLFWwindow* window);
 
-    void renderGui(GLFWwindow* window);
+    ~GUI();
 
-    void cleanupGui();
+    void render(GLFWwindow* window);
+
+    void cleanup();
 
 };
 
