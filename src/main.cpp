@@ -1,11 +1,14 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+
+#include "headers/GUI.h"
+
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
-bool init(GLFWwindow** window);
+bool initGLFW(GLFWwindow** window);
 
 // settings
 const unsigned int SCR_WIDTH = 1920;
@@ -14,7 +17,9 @@ const char* SCR_NAME = "Starter";
 int main()
 {
 	GLFWwindow* win;
-	if (!init(&win)) return -1;
+	if (!initGLFW(&win)) return -1;
+
+	GUI gui = GUI(win);
 
 	// render loop
 	// -----------
@@ -24,16 +29,20 @@ int main()
 		// -----
 		processInput(win);
 
-		// render
-		// ------
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.3, 0.4, 0.4, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		gui.renderGui(win);		
+
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(win);
 		glfwPollEvents();
 	}
+
+	gui.cleanupGui();
+
 	// glfw: terminate, clearing all previously allocated GLFWresources.
 	//---------------------------------------------------------------
 	glfwTerminate();
@@ -55,7 +64,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-bool init(GLFWwindow** window) {
+bool initGLFW(GLFWwindow** window) {
 	// glfw: initialize and configure
 	// ------------------------------
 	glfwInit();
@@ -75,6 +84,8 @@ bool init(GLFWwindow** window) {
 		return false;
 	}
 	glfwMakeContextCurrent(*window);
+    glfwSwapInterval(1); // Enable vsync
+
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

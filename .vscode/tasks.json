@@ -3,12 +3,14 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "C/C++: g++.exe Debug build active file",
+            "label": "C/C++: g++.exe Debug build project",
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-g",
-                "${workspaceFolder}/src/\\*.cpp",
+                "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/src/headers/*.cpp",
                 "${workspaceFolder}/src/glad.c",
+                "${workspaceFolder}/include/imgui/*.cpp",
                 "-std=c++20",
                 "-I${workspaceFolder}/include",
                 "-L${workspaceFolder}/lib",
